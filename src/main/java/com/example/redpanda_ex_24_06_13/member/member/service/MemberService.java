@@ -28,12 +28,6 @@ public class MemberService {
         return memberRepository.count();
     }
 
-    @Transactional
-    public void increasePostCount(long memberId) {
-        Optional<Member> opMember = findById(memberId);
-        opMember.ifPresent(Member::increasePostCount);
-    }
-
     private Optional<Member> findById(long memberId) {
         return memberRepository.findById(memberId);
     }
