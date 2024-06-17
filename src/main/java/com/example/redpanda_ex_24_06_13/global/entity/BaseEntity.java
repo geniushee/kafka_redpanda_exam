@@ -15,4 +15,9 @@ public abstract class BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @EqualsAndHashCode.Include
     private long id;
+
+    public String getModuleName(){
+        String simpleName = this.getClass().getSimpleName();
+        return Character.toUpperCase(simpleName.charAt(0)) + simpleName.substring(1);
+    }
 }
