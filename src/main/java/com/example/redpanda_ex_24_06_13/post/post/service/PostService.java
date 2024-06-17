@@ -19,6 +19,7 @@ public class PostService {
     private final PostRepository postRepository;
     @PersistenceContext
     private final EntityManager entityManager;
+    // 이벤트 퍼블리셔를 이용해 스프링에서 이벤트를 생성할 수 있다.
     private final ApplicationEventPublisher publisher;
 
     public Post creatPost(Author author, String title, String content) {
@@ -32,6 +33,9 @@ public class PostService {
                         .build()
         );
 
+        // 퍼블리셔를 이용해 PostCreatedEvent라는 채팅방에 post라는 새로운 글을 생성한다.
+        // 이렇게 생성한 글은 각 이벤트 리스너가 확인하여 이런 저런 기능을 한다.
+        // 이벤트 퍼블리셔/리스너를 이용해 Noti모듈과의 종속성을 제거했다.
         publisher.publishEvent(new PostCreatedEvent(this, post));
 
         return post;
