@@ -1,15 +1,14 @@
 package com.example.redpanda_ex_24_06_13.post.post.service;
 
+import com.example.redpanda_ex_24_06_13.global.event.PostCreatedEvent;
 import com.example.redpanda_ex_24_06_13.member.member.entity.Member;
-import com.example.redpanda_ex_24_06_13.noti.noti.service.NotiService;
 import com.example.redpanda_ex_24_06_13.post.post.entity.Author;
 import com.example.redpanda_ex_24_06_13.post.post.entity.Post;
 import com.example.redpanda_ex_24_06_13.post.post.repository.PostRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,11 +17,9 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly = true)
 public class PostService {
     private final PostRepository postRepository;
-    @Autowired
-    @Lazy
-    private NotiService notiService;
     @PersistenceContext
     private final EntityManager entityManager;
+    private final ApplicationEventPublisher publisher;
 
     public Post creatPost(Author author, String title, String content) {
         author.increasePostCount();
@@ -35,12 +32,9 @@ public class PostService {
                         .build()
         );
 
-        firePostCreateEvent(post);
-        return post;
-    }
+        publisher.publishEvent(new PostCreatedEvent(this, post));
 
-    private void firePostCreateEvent(Post post) {
-        notiService.postCreated(post);
+        return post;
     }
 
     public long count() {
