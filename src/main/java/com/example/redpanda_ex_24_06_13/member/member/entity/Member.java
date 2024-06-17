@@ -13,4 +13,10 @@ public class Member extends TimeEntity {
     private String username;
     private String password;
     private String nickname;
+    @Setter(AccessLevel.PRIVATE)
+    private long postCount;
+
+    public void increasePostCount(){
+        postCount++;
+    }
 }
