@@ -9,6 +9,7 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,6 +22,7 @@ public class PostService {
     private final EntityManager entityManager;
     // 이벤트 퍼블리셔를 이용해 스프링에서 이벤트를 생성할 수 있다.
     private final ApplicationEventPublisher publisher;
+    private final KafkaTemplate<Object, Object> template;
 
     public Post creatPost(Author author, String title, String content) {
         author.increasePostCount();
@@ -37,6 +39,7 @@ public class PostService {
         // 이렇게 생성한 글은 각 이벤트 리스너가 확인하여 이런 저런 기능을 한다.
         // 이벤트 퍼블리셔/리스너를 이용해 Noti모듈과의 종속성을 제거했다.
         publisher.publishEvent(new PostCreatedEvent(this, post));
+        template.send("chat-room-1","글이 생성되었습니다.");
 
         return post;
     }
