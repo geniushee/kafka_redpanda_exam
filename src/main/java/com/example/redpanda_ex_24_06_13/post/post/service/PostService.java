@@ -1,5 +1,6 @@
 package com.example.redpanda_ex_24_06_13.post.post.service;
 
+import com.example.redpanda_ex_24_06_13.global.dto.chat.ChatMessageDto;
 import com.example.redpanda_ex_24_06_13.global.event.PostCreatedEvent;
 import com.example.redpanda_ex_24_06_13.member.member.entity.Member;
 import com.example.redpanda_ex_24_06_13.post.author.entity.Author;
@@ -39,7 +40,7 @@ public class PostService {
         // 이렇게 생성한 글은 각 이벤트 리스너가 확인하여 이런 저런 기능을 한다.
         // 이벤트 퍼블리셔/리스너를 이용해 Noti모듈과의 종속성을 제거했다.
         publisher.publishEvent(new PostCreatedEvent(this, post));
-        template.send("chat-room-1","글이 생성되었습니다.");
+        template.send("chat-room-1",new ChatMessageDto(post.getId() + "번 글이 생성되었습니다."));
 
         return post;
     }
