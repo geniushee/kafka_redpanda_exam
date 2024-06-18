@@ -35,7 +35,7 @@ public class NotiService {
                     .relId(post.getId())
                     .TypeCode("POST")
                     .Type2Code("CREATED")
-                    .isRead(false)
+                    .readStatus(false)
                     .build();
 
             notiRepository.save(noti);

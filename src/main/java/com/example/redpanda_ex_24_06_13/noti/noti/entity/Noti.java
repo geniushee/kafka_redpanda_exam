@@ -21,7 +21,7 @@ public class Noti extends TimeEntity {
     private long relId; //알림 종류 아이디
     private String TypeCode;
     private String Type2Code;
-    private boolean isRead;
+    private boolean readStatus;
 
     public String getUri(){
         if(TypeCode.equals("POST") && Type2Code.equals("CREATED")){

@@ -38,3 +38,4 @@ out/
 
 ### custom ###
 db.mv.db
+application-secret.yml

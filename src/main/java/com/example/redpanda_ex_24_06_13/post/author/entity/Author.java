@@ -1,4 +1,4 @@
-package com.example.redpanda_ex_24_06_13.post.post.entity;
+package com.example.redpanda_ex_24_06_13.post.author.entity;
 
 import com.example.redpanda_ex_24_06_13.global.entity.TimeEntity;
 import jakarta.persistence.Column;

@@ -4,12 +4,13 @@ import com.example.redpanda_ex_24_06_13.global.event.PostCreatedEvent;
 import com.example.redpanda_ex_24_06_13.noti.noti.service.NotiService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.event.EventListener;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 @Component
 @RequiredArgsConstructor
-@Transactional(readOnly = true)
+@Transactional
 public class NotiEventListener {
     // 이벤트 리스너를 이용하여 post모듈과의 종속성을 제거
     // PostCreatedEvent를 채팅방이라고 생각한다면 listen이라는 메소드가 채팅방의 참가자이다.
@@ -17,6 +18,7 @@ public class NotiEventListener {
 
     private final NotiService notiService;
     @EventListener
+    @Async
     public void listen(PostCreatedEvent event){
         notiService.postCreated(event.getPost());
     }

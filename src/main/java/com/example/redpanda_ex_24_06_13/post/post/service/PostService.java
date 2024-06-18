@@ -2,7 +2,7 @@ package com.example.redpanda_ex_24_06_13.post.post.service;
 
 import com.example.redpanda_ex_24_06_13.global.event.PostCreatedEvent;
 import com.example.redpanda_ex_24_06_13.member.member.entity.Member;
-import com.example.redpanda_ex_24_06_13.post.post.entity.Author;
+import com.example.redpanda_ex_24_06_13.post.author.entity.Author;
 import com.example.redpanda_ex_24_06_13.post.post.entity.Post;
 import com.example.redpanda_ex_24_06_13.post.post.repository.PostRepository;
 import jakarta.persistence.EntityManager;
@@ -55,4 +55,5 @@ public class PostService {
     public Member of(Author author) {
         return entityManager.getReference(Member.class, author.getId());
     }
+
 }
